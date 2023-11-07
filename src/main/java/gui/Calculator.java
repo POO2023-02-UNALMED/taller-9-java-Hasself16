@@ -122,23 +122,46 @@ public class Calculator extends VBox implements EventHandler<ActionEvent>{
 		this.getChildren().addAll(sp, gd);
 	}
 
-///	@Override
-///	public void ***(ActionEvent event) {
-///		
-///		Button b = (Button) event.getSource();
-///		String value = b.getText();
-///		
-///		***
-///		***
-///		***
-///		
-///	}
-
 	@Override
-	public void handle(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	public void handle(ActionEvent event) {
 		
+		Button b = (Button) event.getSource();
+		String value = b.getText();
+		
+		if (value.matches("[0-9]")) {
+	        if (operator == null) {
+	            number1 += value;
+	            displayText.setText(number1);
+	        } else {
+	            number2 += value;
+	            displayText.setText(number2);
+	        }
+		} else if (value.equals("=")) {
+			if (operator=="+") {
+				int valor= (int)Double.parseDouble(number1) + (int)Double.parseDouble(number2);
+				displayText.setText(String.valueOf(valor));
+			}else if (operator=="-") {
+				int valor= (int)Double.parseDouble(number1) - (int)Double.parseDouble(number2);
+				displayText.setText(String.valueOf(valor));
+			}else if (operator=="*") {
+				int valor= (int)Double.parseDouble(number1) * (int)Double.parseDouble(number2);
+				displayText.setText(String.valueOf(valor));
+			}else if (operator=="/") {
+				if (Integer.parseInt(number2) != 0) {
+					double valor= Double.parseDouble(number1) / Double.parseDouble(number2);
+					displayText.setText(String.valueOf(valor));
+				}else {
+					displayText.setText("error");
+				}
+			}
+		} else if (value=="+" || value=="-" || value=="*" || value=="/") {
+            this.operator = value;
+		} else if (value.equals("C")) {
+            number1 = "";
+            number2 = "";
+            operator = "";
+            displayText.setText(null);
+		}
 	}
-	
 
 }
